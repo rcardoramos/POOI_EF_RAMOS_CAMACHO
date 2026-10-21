@@ -1,0 +1,221 @@
+﻿@using System.Linq
+@model IEnumerable<POOI_EF_RAMOS_CAMACHO.Models.Consumidor>
+
+@{
+    ViewBag.Title = "Consumidores";
+}
+
+<div class="container" style="max-width: 1100px; margin-top: 40px;">
+
+    <!-- Encabezado -->
+    <div style="
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        flex-wrap: wrap;
+        gap: 15px;
+    ">
+        <div>
+            <h2 style="
+                margin: 0;
+                font-weight: 600;
+                color: #212529;
+            ">
+                Gestión de Consumidores
+            </h2>
+
+            <p class="text-muted" style="margin-top: 6px; margin-bottom: 0;">
+                Consulta y administra los consumidores registrados.
+            </p>
+        </div>
+
+        @Html.ActionLink(
+            "Nuevo consumidor",
+            "Create",
+            "Consumidor",
+            null,
+            new
+            {
+                @class = "btn btn-primary"
+            }
+        )
+    </div>
+
+
+    <!-- Mensaje del proceso -->
+    @if (TempData["Mensaje"] != null)
+    {
+        <div class="alert alert-success"
+             style="border-radius: 8px;">
+            @TempData["Mensaje"]
+        </div>
+    }
+
+
+    @if (Model != null && Model.Any())
+    {
+        <div style="
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        ">
+
+            <div class="table-responsive">
+
+                <table class="table"
+                       style="margin-bottom: 0;">
+
+                    <thead style="background-color: #f8f9fa;">
+                        <tr>
+                            <th style="padding: 15px;">
+                                DNI
+                            </th>
+
+                            <th style="padding: 15px;">
+                                Consumidor
+                            </th>
+
+                            <th style="padding: 15px;">
+                                Email
+                            </th>
+
+                            <th style="padding: 15px;">
+                                País
+                            </th>
+
+                            <th style="
+                                padding: 15px;
+                                text-align: center;
+                            ">
+                                Acciones
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr style="vertical-align: middle;">
+
+                                <td style="padding: 15px;">
+                                    <strong>
+                                        @item.dnicont
+                                    </strong>
+                                </td>
+
+                                <td style="padding: 15px;">
+                                    <div style="font-weight: 500;">
+                                        @item.nomcont @item.apecont
+                                    </div>
+                                </td>
+
+                                <td style="padding: 15px;">
+                                    <span class="text-muted">
+                                        @item.emailcont
+                                    </span>
+                                </td>
+
+                                <td style="padding: 15px;">
+                                    <span class="label label-default"
+                                          style="
+                                              padding: 6px 10px;
+                                              border-radius: 12px;
+                                          ">
+                                        @item.nombrepais
+                                    </span>
+                                </td>
+
+                                <td style="
+                                    padding: 15px;
+                                    text-align: center;
+                                    white-space: nowrap;
+                                ">
+
+                                    @Html.ActionLink(
+                                        "Detalles",
+                                        "Details",
+                                        new { dni = item.dnicont },
+                                        new
+                                        {
+                                            @class = "btn btn-default btn-sm",
+                                            style = "margin-right:5px;"
+                                        }
+                                    )
+
+                                    @Html.ActionLink(
+                                        "Editar",
+                                        "Update",
+                                        new { dni = item.dnicont },
+                                        new
+                                        {
+                                            @class = "btn btn-warning btn-sm",
+                                            style = "margin-right:5px;"
+                                        }
+                                    )
+
+                                    @Html.ActionLink(
+                                        "Eliminar",
+                                        "Delete",
+                                        new { dni = item.dnicont },
+                                        new
+                                        {
+                                            @class = "btn btn-danger btn-sm",
+                                            onclick = "return confirm('¿Desea eliminar este consumidor?');"
+                                        }
+                                    )
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+    }
+    else
+    {
+        <!-- Estado vacío -->
+        <div style="
+            background: #ffffff;
+            border: 1px dashed #ced4da;
+            border-radius: 12px;
+            padding: 60px 20px;
+            text-align: center;
+        ">
+
+            <h4 style="
+                margin-bottom: 10px;
+                font-weight: 500;
+            ">
+                No hay registros
+            </h4>
+
+            <p class="text-muted"
+               style="margin-bottom: 25px;">
+                Todavía no se han registrado consumidores.
+            </p>
+
+            @Html.ActionLink(
+                "Registrar consumidor",
+                "Create",
+                "Consumidor",
+                null,
+                new
+                {
+                    @class = "btn btn-primary"
+                }
+            )
+
+        </div>
+    }
+
+</div>
